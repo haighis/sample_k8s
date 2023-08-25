@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+namespace: sample
+metadata:
+  name: samplefrontend-deployment
+  labels:
+    app: samplefrontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: samplefrontend
+  template:
+    metadata:
+      labels:
+        app: samplefrontend
+    spec:
+      containers:
+        - name: samplefrontend
+          image: samplefrontend
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: samplefrontend
+spec:
+  selector:
+    app: samplefrontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

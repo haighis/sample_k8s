@@ -1,0 +1,34 @@
+version: '3.4'
+
+# TODO
+# Health Checks
+# Resource limits
+services:
+  sampleproxy:
+    image: sampleproxy
+    container_name: sampleproxy
+    build:
+      context: ./sampleproxy
+      dockerfile: Dockerfile
+    ports:
+      - "82:82"    
+  samplebackend:
+    image: samplebackend
+    container_name: samplebackend
+    build:
+      context: ./samplebackend
+      dockerfile: Dockerfile    
+    ports:
+      - 3001:3001
+  samplefrontend:
+    image: samplefrontend
+    container_name: samplefrontend
+    build:
+      context: ./samplefrontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"    
+    links:
+      - samplebackend
+    depends_on:
+      - samplebackend
